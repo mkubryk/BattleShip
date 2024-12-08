@@ -3,6 +3,8 @@ import BatailleNavale.Configuration;
 import BatailleNavale.Menu;
 import BatailleNavale.Case;
 import java.lang.module.Configuration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
 
@@ -30,5 +32,25 @@ public class Test {
         case1.setTouched(true);
         System.out.println("La case est touchée ? " + case1.isTouched());
         System.out.println("Représentation de la case : " + case1.toString());
+
+         System.out.println("\n=== Tests Bateau ===");
+        List<Case> cases = new ArrayList<>();
+        cases.add(new Case(0, 0));
+        cases.add(new Case(0, 1));
+        Bateau bateau = new Bateau(1, "Torpilleur", cases);
+
+        System.out.println("Nom du bateau : " + bateau.getName());
+        System.out.println("Taille du bateau : " + bateau.getSize());
+        System.out.println("Le bateau est coulé ? " + bateau.isSank());
+
+        // Toucher une case
+        cases.get(0).setTouchee(true);
+        System.out.println("Le bateau est coulé après un tir ? " + bateau.isSank());
+
+        // Toucher toutes les cases
+        cases.get(1).setTouchee(true);
+        System.out.println("Le bateau est coulé après tous les tirs ? " + bateau.isSank());
+
+        System.out.println("Représentation du bateau : " + bateau.toString());
     }
 }
