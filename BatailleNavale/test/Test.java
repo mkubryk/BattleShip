@@ -2,6 +2,8 @@ package BatailleNavale.test;
 import BatailleNavale.Configuration;
 import BatailleNavale.Menu;
 import BatailleNavale.Case;
+import BatailleNavale.Bateau;
+import BatailleNavale.Plateau;
 import java.lang.module.Configuration;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +46,33 @@ public class Test {
         System.out.println("Le bateau est coulé ? " + bateau.isSank());
 
         // Toucher une case
-        cases.get(0).setTouchee(true);
+        cases.get(0).setTouched(true);
         System.out.println("Le bateau est coulé après un tir ? " + bateau.isSank());
 
         // Toucher toutes les cases
-        cases.get(1).setTouchee(true);
+        cases.get(1).setTouched(true);
         System.out.println("Le bateau est coulé après tous les tirs ? " + bateau.isSank());
 
         System.out.println("Représentation du bateau : " + bateau.toString());
+
+
+        // Test de la classe Plateau
+        System.out.println("\n=== Tests Plateau ===");
+        Plateau Plateau = new Plateau();
+        Plateau.display();
+
+        List<Case> shipCases = new ArrayList<>();
+        shipCases.add(new Case(0, 0));
+        shipCases.add(new Case(0, 1));
+        Bateau bateau = new Bateau(1, "Torpilleur", shipCases);
+
+        try {
+            Plateau.addShip(bateau);
+            System.out.println("Bateau ajouté avec succès !");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
+
+        Plateau.display();
     }
 }
