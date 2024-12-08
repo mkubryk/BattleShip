@@ -24,7 +24,7 @@ public abstract class Configuration {
         return ships.length;
     }
     
-    public static String getDescription (int id) {
+    public static String getDesc (int id) {
         int i = 0;
         String desc = "Bateau non trouvé ! ";
         while (i < ships.length) {
