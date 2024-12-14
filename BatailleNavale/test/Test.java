@@ -74,5 +74,35 @@ public class Test {
         }
 
         Plateau.display();
+
+        // Test de la classe Joueur
+        System.out.println("\n=== Tests Joueur ===");
+
+        // Classe anonyme pour tester Joueur (comme elle est abstraite)
+        Joueur Joueur = new Joueur() {
+            @Override
+            public void placeShips() {
+                System.out.println(name + " place ses bateaux.");
+            }
+
+            @Override
+            public void takeShot(Joueur adversaire) {
+                System.out.println(name + " tire sur " + adversaire.getName() + " !");
+            }
+
+            @Override
+            public void initializeName() {
+                this.name = "Joueur Test";
+            }
+        };
+
+        Joueur.initializeName();
+        System.out.println("Nom du joueur : " + Joueur.getName());
+        Joueur.incrementTotalHits();
+        Joueur.incrementSuccessfulHits();
+        Joueur.incrementSunkShips();
+        System.out.println(Joueur.getStatistics());
     }
+
+    
 }
