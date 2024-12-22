@@ -4,6 +4,9 @@ import BatailleNavale.Menu;
 import BatailleNavale.Case;
 import BatailleNavale.Bateau;
 import BatailleNavale.Plateau;
+import Joueur.Joueur;
+import Joueur.JoueurHumain;
+
 import java.lang.module.Configuration;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +105,63 @@ public class Test {
         Joueur.incrementSuccessfulHits();
         Joueur.incrementSunkShips();
         System.out.println(Joueur.getStatistics());
+
+
+        // Test de la classe JoueurHumain
+        System.out.println("\n=== Tests JoueurHumain ===");
+        // 1. Test de l'initialisation du nom
+        System.out.println("\n--- Test de l'initialisation du nom ---");
+        JoueurHumain joueurHumain = new JoueurHumain();
+        System.out.println("Nom du joueur humain : " + joueurHumain.getName());
+
+        // 2. Test du placement des bateaux
+        System.out.println("\n--- Test du placement des bateaux ---");
+        Plateau plateau = joueurHumain.getPlateau();
+
+        // Ajout manuel de bateaux pour tester la logique de placement
+        List<Case> shipCases = new ArrayList<>();
+        shipCases.add(new Case(0, 0));
+        shipCases.add(new Case(0, 1));
+        Bateau bateau = new Bateau(1, "Torpilleur", shipCases);
+        try {
+            plateau.addShip(bateau);
+            System.out.println("Bateau placé avec succès !");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur lors du placement : " + e.getMessage());
+        }
+        plateau.display();
+
+        // 3. Test du tir sur un adversaire
+        System.out.println("\n--- Test du tir sur un adversaire ---");
+        JoueurHumain adversaire = new JoueurHumain();
+        adversaire.initializeName();
+        System.out.println("Nom de l'adversaire : " + adversaire.getName());
+
+        // Ajout d'un bateau pour l'adversaire
+        List<Case> adversaryShipCases = new ArrayList<>();
+        adversaryShipCases.add(new Case(1, 1));
+        adversaryShipCases.add(new Case(1, 2));
+        Bateau adversaryBateau = new Bateau(2, "Croiseur", adversaryShipCases);
+        try {
+            adversaire.getPlateau().addShip(adversaryBateau);
+            System.out.println("Bateau de l'adversaire placé avec succès !");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erreur lors du placement pour l'adversaire : " + e.getMessage());
+        }
+        adversaire.getPlateau().display();
+
+        // Tir sur l'adversaire
+        joueurHumain.takeShot(adversaire);
+
+        // Afficher les résultats après le tir
+        System.out.println("\nPlateau de l'adversaire après le tir :");
+        adversaire.getPlateau().display();
+
+        System.out.println("\nStatistiques du joueur humain :");
+        System.out.println(joueurHumain.getStatistics());
+
+
+
     }
 
     
