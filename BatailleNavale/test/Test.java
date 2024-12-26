@@ -4,10 +4,10 @@ import BatailleNavale.Menu;
 import BatailleNavale.Case;
 import BatailleNavale.Bateau;
 import BatailleNavale.Plateau;
-import Joueur.Joueur;
-import Joueur.JoueurHumain;
+import BatailleNavale.Joueur.Joueur;
+import BatailleNavale.Joueur.JoueurHumain;
+import BatailleNavale.Joueur.JoueurBot;
 
-import java.lang.module.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,8 +160,34 @@ public class Test {
         System.out.println("\nStatistiques du joueur humain :");
         System.out.println(joueurHumain.getStatistics());
 
+        // Test de la classe JoueurBot
+        System.out.println("\n=== Tests JoueurBot ===");
 
+        // 1. Initialisation du bot
+        JoueurBot bot = new JoueurBot();
+        System.out.println("Nom du bot : " + bot.getName());
 
+        // 2. Placement automatique des bateaux
+        System.out.println("\n--- Placement automatique des bateaux ---");
+        bot.placeShips();
+        bot.getPlateau().display();
+
+        // 3. Tir automatique sur un adversaire
+        System.out.println("\n--- Tir automatique sur un adversaire ---");
+        JoueurHumain adversaire = new JoueurHumain();
+        adversaire.initializeName();
+        adversaire.placeShips();
+
+        System.out.println("Plateau de l'adversaire avant les tirs :");
+        adversaire.getPlateau().display();
+
+        bot.takeShot(adversaire);
+
+        System.out.println("\nPlateau de l'adversaire après les tirs :");
+        adversaire.getPlateau().display();
+
+        System.out.println("\nStatistiques du bot :");
+        System.out.println(bot.getStatistics());
     }
 
     
