@@ -55,7 +55,7 @@ Pour plus d'information sur le makefile tapez sur votre terminal `make help`
 J'ai réalisé l'intégralité des parties obligatoires du TP, cependant j'ai accumulé du retard à cause des transports lors des deux premières séances. Pour combler mon retard j'ai repris le projet chez moi et j'ai apporté mon pc portable durant les séances pour continuer confortablement, mais j'ai eu des problèmes de configuration ce qui a fait que pour les tests au début je ne testais pas correctement et je ne m'en rendais pas compte. J'ai résolu l'ensemble de ces problèmes et j'ai terminé le projet sans emcomble.
 
 
-## Lien vers le git 
+## Lien vers le git (branche last-version) 
 > https://github.com/mkubryk/BattleShip.git
 
 ## Ressources
