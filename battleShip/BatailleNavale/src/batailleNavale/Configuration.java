@@ -1,4 +1,4 @@
-package BatailleNavale;
+package batailleNavale;
 
 public abstract class Configuration {
 
@@ -13,7 +13,8 @@ public abstract class Configuration {
     private static final int gridSize = 10;
     // indice allant de A à J pour les colonnes et de 0 à 9 pour les lignes
 
-    public Configuration() {
+    public static String [][] getShipsConfig() {
+    	return ships;
     }
 
     public static  int getGridSize() {
@@ -24,6 +25,7 @@ public abstract class Configuration {
         return ships.length;
     }
     
+    /*
     public static String getDesc (int id) {
         int i = 0;
         String desc = "Bateau non trouvé ! ";
@@ -36,7 +38,7 @@ public abstract class Configuration {
         }
         return desc;
         
-    }
+    } */
 
     public static String [] getShip (int id) {
         int i = 0;

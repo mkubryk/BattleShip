@@ -1,13 +1,21 @@
-package BatailleNavale.Joueur;
+package joueur;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import batailleNavale.Bateau;
+import batailleNavale.Case;
+import batailleNavale.Configuration;
+import batailleNavale.Direction;
+import support.TraitementCoordonnee;
 
 public class JoueurHumain extends Joueur {
-
+	
     // Constructeur
     public JoueurHumain() {
         super();  // Appelle le constructeur de la classe mère
-        initializeName();  // Initialise le nom du joueur
+        //initializeName();  // Initialise le nom du joueur
     }
 
     /**
@@ -31,7 +39,8 @@ public class JoueurHumain extends Joueur {
     public void placeShips() {
         System.out.println(name + ", veuillez placer vos bateaux.");
         for (int i = 0; i < Configuration.getNbShips(); i++) {
-            String[] shipConfig = Configuration.getShip(i + 1);
+            String[] shipConfig = Configuration.getShipsConfig()[i];
+			int idShip = Integer.parseInt(shipConfig[0].trim());
             String shipName = shipConfig[1].trim();
             int shipSize = Integer.parseInt(shipConfig[2].trim());
 
@@ -46,7 +55,7 @@ public class JoueurHumain extends Joueur {
                     System.out.print("Entrez la direction (H pour Horizontal, V pour Vertical) : ");
                     String direction = input.readLine().trim().toUpperCase();
 
-                    placed = placeShipOnBoard(shipName, shipSize, startCoord, direction);
+                    placed = placeShipOnBoard(idShip, shipName,shipSize, startCoord, direction);
 
                     if (!placed) {
                         System.out.println("Placement invalide. Veuillez réessayer.");
@@ -63,7 +72,7 @@ public class JoueurHumain extends Joueur {
      * @param adversaire Le joueur adverse.
      */
     @Override
-    public void takeShot(Joueur adversaire) {
+    public void shoot(Joueur adversaire) {
         boolean validShot = false;
 
         while (!validShot) {
@@ -72,26 +81,33 @@ public class JoueurHumain extends Joueur {
                 String coord = input.readLine().trim().toUpperCase();
 
                 int x = Integer.parseInt(coord.substring(1));
-                int y = coord.charAt(0) - 'A';
+                int y = Integer.parseInt(TraitementCoordonnee.CoordonneeLettreversNombre(coord.substring(0,1)));
 
-                if (adversaire.getPlateau().isValidPosition(x, y) && !adversaire.getPlateau().getCase(x, y).isTouched()) {
-                    Case target = adversaire.getPlateau().getCase(x, y);
+                if (adversaire.getPlateau().isValidPosition(x, y) && !adversaire.getPlateau().getCell(x, y).isTouched()) {
+                    Case target = adversaire.getPlateau().getCell(x, y);
                     target.setTouched(true);
                     setLastHit(target);
                     incrementTotalHits();
 
-                    if (target.getidShip() != 0) {
-                        incrementSuccessfulHits();
-                        Bateau hitShip = adversaire.getPlateau().getShipById(target.getidShip());
-                        System.out.println("Touché !");
-                        if (hitShip.isSank()) {
-                            incrementSunkShips();
-                            System.out.println("Bravo ! Vous avez coulé le " + hitShip.getName() + " adverse !");
-                        }
-                    } else {
-                        System.out.println("Raté !");
-                    }
-
+                    if (target.getIdShip() != 0) {
+    					incrementSuccessfulHits();
+    					Bateau hitShip = adversaire.getPlateau().getShipById(target.getIdShip());
+    					System.out.println(" Touché !");
+    					if (hitShip == null) {
+    						System.out.println("Erreur: Aucun bateau trouvé avec l'ID " + target.getIdShip());
+    					} else {
+    						if (hitShip.getCase(x, y) != null) {
+    							hitShip.getCase(x, y).setTouched(true);
+    						}
+    						System.out.println("Bateau touché: " + hitShip.getName());
+    						if (hitShip.isSunk()) {
+    							incrementSunkShips();
+    							System.out.println("Bravo " + name + " a coulé un " + hitShip.getName() + " adverse !");
+    						}
+    					}
+    				} else {
+    					System.out.println("Raté !");
+    				}
                     validShot = true;
                 } else {
                     System.out.println("Tir invalide. Veuillez réessayer.");
@@ -110,22 +126,27 @@ public class JoueurHumain extends Joueur {
      * @param direction Direction du bateau (H pour horizontal, V pour vertical).
      * @return true si le placement est réussi, false sinon.
      */
-    private boolean placeShipOnBoard(String name, int size, String startCoord, String direction) {
+    private boolean placeShipOnBoard(int idShip, String nameShip, int size, String startCoord, String direction) {
         try {
             int x = Integer.parseInt(startCoord.substring(1));
             int y = startCoord.charAt(0) - 'A';
+            Direction dir = Direction.parseDirection(direction);
 
             List<Case> shipCases = new ArrayList<>();
             for (int i = 0; i < size; i++) {
-                if (direction.equals("H")) {
-                    shipCases.add(plateau.getCase(x, y + i));
-                } else if (direction.equals("V")) {
-                    shipCases.add(plateau.getCase(x + i, y));
+                if (dir == Direction.HORIZONTAL) {
+                    shipCases.add(plateau.getCell(x, y + i));
+                } else if (dir == Direction.VERTICAL) {
+                    shipCases.add(plateau.getCell(x + i, y));
+                }
+                else {
+                	System.out.println("Vous devez entrer une direction (H/V)");
+                	return false;
                 }
             }
 
             if (plateau.isWithinBounds(shipCases) && plateau.isNotAdjacent(shipCases)) {
-                Bateau ship = new Bateau(Configuration.getNbShips(), name, shipCases);
+                Bateau ship = new Bateau(idShip, nameShip, shipCases);
                 plateau.addShip(ship);
                 return true;
             }

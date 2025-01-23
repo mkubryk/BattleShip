@@ -1,5 +1,4 @@
-package BatailleNavale;
-
+package batailleNavale;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,8 +58,12 @@ public class Menu {
      */
     private void jouer() {
         System.out.println("Lancement du jeu...");
-        // Implémentation à compléter
-    }
+        System.out.println("\nLancement d'une nouvelle partie...");
+        Partie partie = new Partie();
+        partie.initialize();
+        partie.play();
+
+        System.out.println("\nFin de partie !");    }
 
     /**
      * Affiche les règles du jeu.

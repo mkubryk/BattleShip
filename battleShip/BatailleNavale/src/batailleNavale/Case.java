@@ -1,4 +1,4 @@
-package BatailleNavale;
+package batailleNavale;
 
 public class Case {
 
@@ -15,8 +15,15 @@ public class Case {
         this.idShip = 0;  // Par défaut, aucune case n'a de bateau
         this.touched = false;  // Par défaut, la case n'a pas été touchée
     }
+    
+    // Constructeur
+    public Case(int x, int y, int idShip) {
+        this.x = x;
+        this.y = y;
+        this.idShip = idShip;  
+        this.touched = false;  // Par défaut, la case n'a pas été touchée
+    }
 
-    // Getters
     public int getX() {
         return x;
     }
@@ -25,7 +32,7 @@ public class Case {
         return y;
     }
 
-    public int getidShip() {
+    public int getIdShip() {
         return idShip;
     }
 
@@ -52,7 +59,6 @@ public class Case {
 
     @Override
     public String toString() {
-        String etat = touched ? "X" : (idShip == 0 ? "." : String.valueOf(idShip));
-        return etat;
+        return touched ? " X " : (isEmpty() ? " . " : " "+String.valueOf(idShip)+" ");
     }
 }

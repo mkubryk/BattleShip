@@ -1,9 +1,9 @@
-package BatailleNavale;
+package batailleNavale;
 import java.util.List;
 
 public class Bateau {
-
-    // Attributs (en anglais)
+	
+	//Attributs
     private int id;  // Identifiant unique du bateau
     private String name;  // Nom du bateau
     private List<Case> cases;  // Liste des cases occupées par le bateau
@@ -27,6 +27,14 @@ public class Bateau {
     public List<Case> getCases() {
         return cases;
     }
+    
+    public Case getCase (int index) {
+    	return cases.get(index);
+    }
+    
+    public Case getCase (int x, int y) {
+    	return (Case) cases.stream().filter(cell -> cell.getX()==x && cell.getY()==y).findFirst().orElse(null);
+    }
 
     /**
      * Retourne la taille du bateau (nombre de cases occupées).
@@ -40,13 +48,18 @@ public class Bateau {
      * Vérifie si le bateau est coulé (toutes ses cases sont touchées).
      * @return true si le bateau est coulé, false sinon.
      */
-    public boolean isSank() {
-        for (Case c : cases) {
-            if (!c.isTouched()) {
-                return false;
+    public boolean isSunk() {
+        int i = 0;
+        boolean sunk = true;
+
+        while (i < cases.size() && sunk) {
+            if (!cases.get(i).isTouched()) {
+                sunk = false; 
             }
+            i++;
         }
-        return true;
+
+        return sunk;
     }
 
     /**
@@ -56,6 +69,6 @@ public class Bateau {
     @Override
     public String toString() {
         return name + " (ID: " + id + ") - Taille: " + getSize() + " - " +
-               (isSank() ? "Coulé" : "A flot");
+               (isSunk() ? "Coulé" : "A flot");
     }
 }

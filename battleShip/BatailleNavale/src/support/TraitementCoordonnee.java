@@ -1,4 +1,4 @@
-package BatailleNavale.Support;
+package support;
 
 public class TraitementCoordonnee {
 

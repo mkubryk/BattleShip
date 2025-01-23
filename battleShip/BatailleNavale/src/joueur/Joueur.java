@@ -1,17 +1,19 @@
-package BatailleNavale.Joueur;
-import BatailleNavale.Plateau;
-import BatailleNavale.Case;
+package joueur;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import batailleNavale.Plateau;
+import batailleNavale.Case;
+
+
 
 public abstract class Joueur {
 
-    // Attributs (en anglais)
+	//Attributs
     protected String name;  // Nom du joueur
     protected Plateau plateau;  // Plateau du joueur
     protected int totalHits;  // Compteur des frappes totales
     protected int successfulHits;  // Compteur des frappes réussies
-    protected int sunkShips;  // Nombre de bateaux coulés
+    protected int sunkShips;  // Nombre de bateaux adverse coulés
     protected Case lastHit;  // Dernière case frappée
     protected BufferedReader input;  // Pour gérer les saisies clavier
 
@@ -91,6 +93,6 @@ public abstract class Joueur {
 
     // Méthodes abstraites
     public abstract void placeShips();  // Méthode pour placer les bateaux
-    public abstract void takeShot(Joueur adversaire);  // Méthode pour tirer sur un adversaire
+    public abstract void shoot(Joueur adversaire);  // Méthode pour tirer sur un adversaire
     public abstract void initializeName();  // Méthode pour initialiser le nom du joueur
 }
